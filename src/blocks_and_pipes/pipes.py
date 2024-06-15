@@ -1,7 +1,6 @@
 import copy
 from functools import partial
-from typing import Callable, Generic, Iterable, TypeVar
-from typing_extensions import Self
+from typing import Callable, Generic, Iterable, TypeVar, Self
 
 
 class PipeExhausted(Exception):
@@ -35,12 +34,16 @@ class Pipe(Generic[Input, Output]):
             return input
         return chained
 
+    def reset(self):
+        self._pipe = []
+        return self
+
     def exec(self, input: Input|None = None, reset=False, memorize=False) -> Output:
         result = self._exec(input)
         if memorize:
             self._input = result
         if reset:
-            self._pipe = []
+            self.reset()
         return result
 
     def _exec(self, input: Input|None = None, *args, **kwargs):

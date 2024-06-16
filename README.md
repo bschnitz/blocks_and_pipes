@@ -354,3 +354,10 @@ pipe.exec()
 # Name: pythonplanet
 # Average Inhabitants: 72.0
 ```
+
+## Developement
+
+### Testing
+
+Clone the project and run `pytest` from project root (the directory containing
+the `pyproject.toml` file).

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "blocks_and_pipes"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="Benjamin Schnitzler", email="regenbogenbauer@web.de" },
 ]
@@ -20,3 +20,9 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/bschnitz/blocks_and_pipes"
 Issues = "https://github.com/bschnitz/blocks_and_pipes/issues"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "./tests/",
+]
+pythonpath = "./src/"

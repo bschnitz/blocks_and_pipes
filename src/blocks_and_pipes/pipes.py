@@ -20,10 +20,14 @@ class Pipe(Generic[Input, Output]):
         self.kwargs = kwargs
 
     def input(self, input: Input|None):
+        if self.exausted:
+            raise PipeExhausted("Context in which the Pipe was valid has ended.")
         self._input = input
         return self
 
     def getChain(self):
+        if self.exausted:
+            raise PipeExhausted("Context in which the Pipe was valid has ended.")
         pipe = copy.copy(self._pipe)
         def chained(input, *args, **kwargs):
             if len(pipe) == 0:
@@ -35,6 +39,8 @@ class Pipe(Generic[Input, Output]):
         return chained
 
     def reset(self):
+        if self.exausted:
+            raise PipeExhausted("Context in which the Pipe was valid has ended.")
         self._pipe = []
         return self
 
@@ -60,10 +66,14 @@ class Pipe(Generic[Input, Output]):
         return result # pyright: ignore
 
     def append(self, callback: Callable):
+        if self.exausted:
+            raise PipeExhausted("Context in which the Pipe was valid has ended.")
         self._pipe.append(callback)
         return self
 
     def recurseIntoDictValues(self, withKey = False):
+        if self.exausted:
+            raise PipeExhausted("Context in which the Pipe was valid has ended.")
         def recurse(callback: Callable[[Self], None]):
             subpipe = self.__class__()
             callback(subpipe)
@@ -77,6 +87,8 @@ class Pipe(Generic[Input, Output]):
         return recurse
 
     def recurseIntoIterable(self, callback: Callable[[Self], None]):
+        if self.exausted:
+            raise PipeExhausted("Context in which the Pipe was valid has ended.")
         subpipe = self.__class__()
         callback(subpipe)
         def mapValues(f: Callable, it:Iterable):
